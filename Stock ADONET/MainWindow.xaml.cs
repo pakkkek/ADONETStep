@@ -9,7 +9,7 @@ namespace Stock_ADONET
 {
     public partial class MainWindow : Window
     {
-        const string connectionString = @"Data Source=pakkkek\SQLEXPRESS;Initial Catalog=Stock;Integrated Security=True;Encrypt=False";
+        const string connectionString = @"Data Source=pakkkek\SQLEXPRESS;Initial Catalog=Market;Integrated Security=True;Encrypt=False";
         DatabaseManager databaseManager;
 
         public MainWindow()
@@ -18,7 +18,7 @@ namespace Stock_ADONET
             databaseManager = new DatabaseManager(connectionString);
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void ConnectionButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -28,8 +28,8 @@ namespace Stock_ADONET
                 {
                     MessageBox.Show("Connection successful!", "System Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    List<Student> students = await LoadStudents();
-                    StockUsers.ItemsSource = students;
+                    List<FruitsVegetables> fruitsVegetables = await LoadFruitsVegetables();
+                    FruitsVegetables.ItemsSource = fruitsVegetables;
                 }
             }
             catch (Exception ex)
@@ -42,26 +42,36 @@ namespace Stock_ADONET
             }
         }
 
-        private async Task<List<Student>> LoadStudents()
+        private async void DisconnectionButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Student> students = new List<Student>();
-            string query = "SELECT * FROM Students";
+            await databaseManager.CloseConnection();
+
+            if (databaseManager.sqlConnection.State == System.Data.ConnectionState.Closed)
+            {
+                MessageBox.Show("Disconnection successful!", "System Message", MessageBoxButton.OK, MessageBoxImage.Information);
+                FruitsVegetables.ItemsSource = null;
+            }
+        }
+
+        private async Task<List<FruitsVegetables>> LoadFruitsVegetables()
+        {
+            List<FruitsVegetables> fruitsVegetables = new List<FruitsVegetables>();
+            string query = "SELECT * FROM FruitsVegetables";
 
             using (SqlCommand sqlCommand = new SqlCommand(query, databaseManager.sqlConnection))
             using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
             {
                 while (await sqlDataReader.ReadAsync())
                 {
-                    students.Add(new Student(
+                    fruitsVegetables.Add(new FruitsVegetables(
                         (int)sqlDataReader[0],
                         sqlDataReader[1].ToString(),
                         sqlDataReader[2].ToString(),
-                        (decimal)sqlDataReader[3],
-                        sqlDataReader[4].ToString(),
-                        sqlDataReader[5].ToString()));
+                        sqlDataReader[3].ToString(),
+                        (int)sqlDataReader[4]));
                 }
             }
-            return students;
+            return fruitsVegetables;
         }
     }
 }

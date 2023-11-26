@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stock_ADONET"
         mc:Ignorable="d"
-        Title="Stock" Height="450" Width="800" Loaded="Window_Loaded">
-    <DataGrid x:Name="StockUsers"/>
+        Title="Market" Height="450" Width="800">
+    <Grid>
+        <Button Height="50" Width="100" Margin="0,0,300,200" Content="Connect" Click="ConnectionButton_Click" />
+        <Button Height="50" Width="100" Margin="300,0,0,200" Content="Disconnect" Click="DisconnectionButton_Click" />
+        <DataGrid x:Name="FruitsVegetables" Height="200" Width="700" Margin="0,100,0,0" />
+    </Grid>
 </Window>

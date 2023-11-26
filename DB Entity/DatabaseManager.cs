@@ -3,23 +3,21 @@ using System.Data.SqlClient;
 
 namespace DB_Entity
 {
-    public class Student
+    public class FruitsVegetables
     {
-        public int StudentID { get; set; }
-        public string Fullname { get; set; }
-        public string GroupName { get; set; }
-        public decimal AverageGrade { get; set; }
-        public string MinSubject { get; set; }
-        public string MaxSubject { get; set; }
+        public int ItemID { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Color { get; set; }
+        public int Calories { get; set; }
 
-        public Student(int studentID, string fullname, string groupname, decimal averageGrade, string minSubject, string maxSubject)
+        public FruitsVegetables(int itemID, string name, string type, string color, int calories)
         {
-            StudentID = studentID;
-            Fullname = fullname;
-            GroupName = groupname;
-            AverageGrade = averageGrade;
-            MinSubject = minSubject;
-            MaxSubject = maxSubject;
+            ItemID = itemID;
+            Name = name;
+            Type = type;
+            Color = color;
+            Calories = calories;
         }
     }
 
