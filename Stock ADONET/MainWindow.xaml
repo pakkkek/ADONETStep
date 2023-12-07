@@ -5,30 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stock_ADONET"
         mc:Ignorable="d"
-        Title="Market" Height="800" Width="800">
+        Title="Market" Height="800" Width="800" WindowState="Normal">
     <Grid>
-        <Button Height="20" Width="100" Margin="272,759,428,5" Content="Connect" Click="ConnectionButton_Click" />
-        <Button Height="20" Width="100" Margin="417,759,283,5" Content="Disconnect" Click="DisconnectionButton_Click" />
+        <Button Height="20" Width="100" Margin="207,704,493,60" Content="Connect" Click="ConnectionButton_Click" />
+        <Button Height="20" Width="100" Margin="347,704,353,60" Content="Disconnect" Click="DisconnectionButton_Click" />
 
-        <Button Height="30" Width="100" Margin="10,10,690,744" Content="ShowAllInfo" Click="ShowAllInfoButton_Click" />
-        <Button Height="30" Width="100" Margin="115,10,585,744" Content="ShowAllTypes" Click="ShowAllTypesButton_Click" />
-        <Button Height="30" Width="100" Margin="247,10,453,744" Content="ShowAllSuppliers" Click="ShowAllSuppliersButton_Click" />
-        <Button Height="30" Width="100" Margin="352,10,348,744" Content="ShowMaxQuantity" Click="ShowMaxQuantityButton_Click" />
-        <Button Height="30" Width="100" Margin="457,10,243,744" Content="ShowMinQuantity" Click="ShowMinQuantityButton_Click" />
-        <Button Height="30" Width="100" Margin="580,10,120,744" Content="ShowMinCost" Click="ShowMinCostButton_Click" />
-        <Button Height="30" Width="100" Margin="685,10,15,744" Content="ShowMaxCost" Click="ShowMaxCostButton_Click" />
-
-        <Button Height="30" Width="150" Margin="347,277,303,477" Content="Insert Product" Click="InsertProductButton_Click" />
+        <Button Height="30" Width="150" Margin="347,217,303,537" Content="Insert Product" Click="InsertProductButton_Click" />
         <!--<Button Height="30" Width="150" Margin="595,277,55,477" Content="Insert Type" Click="InsertTypeButton_Click" />-->
-        <Button Height="30" Width="150" Margin="65,277,585,477" Content="Insert Supplier" Click="InsertSupplierButton_Click" />
+        <Button Height="30" Width="150" Margin="90,132,560,622" Content="Insert Supplier" Click="InsertSupplierButton_Click" />
 
-        <Button Height="30" Width="150" Margin="347,312,303,442" Content="Update Product" Click="UpdateProductButton_Click" />
+        <Button Height="30" Width="150" Margin="347,252,303,502" Content="Update Product" Click="UpdateProductButton_Click" />
         <!--<Button Height="30" Width="150" Margin="595,312,55,442" Content="Update Type" Click="UpdateTypeButton_Click" />-->
-        <Button Height="30" Width="150" Margin="65,312,585,442" Content="Update Supplier" Click="UpdateSupplierButton_Click" />
+        <Button Height="30" Width="150" Margin="90,167,560,587" Content="Update Supplier" Click="UpdateSupplierButton_Click" />
 
-        <Button Height="30" Width="150" Margin="347,347,303,407" Content="Delete Product" Click="DeleteProductButton_Click" />
+        <Button Height="30" Width="150" Margin="347,287,303,467" Content="Delete Product" Click="DeleteProductButton_Click" />
         <!--<Button Height="30" Width="150" Margin="595,347,55,407" Content="Delete Type" Click="DeleteTypeButton_Click" />-->
-        <Button Height="30" Width="150" Margin="65,347,585,407" Content="Delete Supplier" Click="DeleteSupplierButton_Click" />
+        <Button Height="30" Width="150" Margin="90,202,560,552" Content="Delete Supplier" Click="DeleteSupplierButton_Click" />
 
         <TextBlock Height="15" Width="80" Margin="10,53,710,716" Text="SupplierID:" />
         <TextBox x:Name="SupplierIDTextBox" Height="20" Width="150" Margin="90,50,560,714" />
@@ -55,7 +47,7 @@
         <!--<TextBlock Height="15" Width="40" Margin="545,54,215,715" Text="Type:" />
         <TextBox x:Name="TypeTextBox" Height="20" Width="150" Margin="585,51,65,713" />-->
 
-        <DataGrid x:Name="Suppliers" Margin="10,392,428,48" />
-        <DataGrid x:Name="Products" Margin="417,392,10,48" />
+        <DataGrid x:Name="Suppliers" Margin="41,354,493,85" />
+        <DataGrid x:Name="Products" Margin="347,355,189,85" />
     </Grid>
 </Window>

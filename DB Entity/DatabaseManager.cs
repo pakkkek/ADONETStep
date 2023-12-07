@@ -85,13 +85,18 @@ namespace DB_Entity
 
         public async Task ExecuteNonQuery(string query)
         {
-            if (sqlConnection.State == System.Data.ConnectionState.Open)
+            if (sqlConnection.State == ConnectionState.Closed)
             {
                 await OpenConnection();
             }
+
             SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
             sqlCommand.ExecuteNonQuery();
-            await CloseConnection();
+
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                await CloseConnection();
+            }
         }
 
         public async Task<DataTable> ExecuteQueryAsync(string query)
@@ -113,122 +118,6 @@ namespace DB_Entity
             return dataTable;
         }
 
-        public async Task<List<string>> GetAllTypesAsync()
-        {
-            string query = "SELECT DISTINCT ProductType FROM Products";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            List<string> types = new List<string>();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                types.Add(row["ProductType"].ToString());
-            }
-
-            return types;
-        }
-
-        public async Task<List<string>> GetAllSuppliersAsync()
-        {
-            string query = "SELECT DISTINCT SupplierName FROM Suppliers";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            List<string> suppliers = new List<string>();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                suppliers.Add(row["SupplierName"].ToString());
-            }
-
-            return suppliers;
-        }
-
-        public async Task<Products> GetProductWithMaxQuantityAsync()
-        {
-            string query = "SELECT TOP 1 * FROM Products ORDER BY Quantity DESC";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[0];
-                return new Products(
-                    Convert.ToInt32(row["ProductID"]),
-                    row["ProductName"].ToString(),
-                    row["ProductType"].ToString(),
-                    Convert.ToInt32(row["SupplierID"]),
-                    Convert.ToInt32(row["Quantity"]),
-                    Convert.ToDecimal(row["Cost"]),
-                    Convert.ToDateTime(row["SupplyDate"])
-                );
-            }
-
-            return null;
-        }
-
-        public async Task<Products> GetProductWithMinQuantityAsync()
-        {
-            string query = "SELECT TOP 1 * FROM Products ORDER BY Quantity ASC";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[0];
-                return new Products(
-                    Convert.ToInt32(row["ProductID"]),
-                    row["ProductName"].ToString(),
-                    row["ProductType"].ToString(),
-                    Convert.ToInt32(row["SupplierID"]),
-                    Convert.ToInt32(row["Quantity"]),
-                    Convert.ToDecimal(row["Cost"]),
-                    Convert.ToDateTime(row["SupplyDate"])
-                );
-            }
-
-            return null;
-        }
-
-        public async Task<Products> GetProductWithMinCostAsync()
-        {
-            string query = "SELECT TOP 1 * FROM Products ORDER BY Cost ASC";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[0];
-                return new Products(
-                    Convert.ToInt32(row["ProductID"]),
-                    row["ProductName"].ToString(),
-                    row["ProductType"].ToString(),
-                    Convert.ToInt32(row["SupplierID"]),
-                    Convert.ToInt32(row["Quantity"]),
-                    Convert.ToDecimal(row["Cost"]),
-                    Convert.ToDateTime(row["SupplyDate"])
-                );
-            }
-
-            return null;
-        }
-
-        public async Task<Products> GetProductWithMaxCostAsync()
-        {
-            string query = "SELECT TOP 1 * FROM Products ORDER BY Cost DESC";
-            DataTable dataTable = await ExecuteQueryAsync(query);
-
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[0];
-                return new Products(
-                    Convert.ToInt32(row["ProductID"]),
-                    row["ProductName"].ToString(),
-                    row["ProductType"].ToString(),
-                    Convert.ToInt32(row["SupplierID"]),
-                    Convert.ToInt32(row["Quantity"]),
-                    Convert.ToDecimal(row["Cost"]),
-                    Convert.ToDateTime(row["SupplyDate"])
-                );
-            }
-
-            return null;
-        }
-
         public async Task InsertProductAsync(Products product)
         {
             string query = $"INSERT INTO Products (ProductName, ProductType, SupplierID, Quantity, Cost, SupplyDate) " +
@@ -237,11 +126,11 @@ namespace DB_Entity
             await ExecuteNonQuery(query);
         }
 
-        public async Task InsertTypeAsync(string productType)
-        {
-            string query = $"INSERT INTO ProductTypes (ProductType) VALUES ('{productType}')";
-            await ExecuteNonQuery(query);
-        }
+        //public async Task InsertTypeAsync(string productType)
+        //{
+        //    string query = $"INSERT INTO ProductTypes (ProductType) VALUES ('{productType}')";
+        //    await ExecuteNonQuery(query);
+        //}
 
         public async Task InsertSupplierAsync(Suppliers supplier)
         {
@@ -264,11 +153,11 @@ namespace DB_Entity
             await ExecuteNonQuery(query);
         }
 
-        public async Task UpdateTypeAsync(string oldType, string newType)
-        {
-            string query = $"UPDATE ProductTypes SET ProductType = '{newType}' WHERE ProductType = '{oldType}'";
-            await ExecuteNonQuery(query);
-        }
+        //public async Task UpdateTypeAsync(string oldType, string newType)
+        //{
+        //    string query = $"UPDATE ProductTypes SET ProductType = '{newType}' WHERE ProductType = '{oldType}'";
+        //    await ExecuteNonQuery(query);
+        //}
 
         public async Task DeleteProductAsync(int productId)
         {
@@ -282,10 +171,10 @@ namespace DB_Entity
             await ExecuteNonQuery(query);
         }
 
-        public async Task DeleteTypeAsync(string productType)
-        {
-            string query = $"DELETE FROM ProductTypes WHERE ProductType = '{productType}'";
-            await ExecuteNonQuery(query);
-        }
+        //public async Task DeleteTypeAsync(string productType)
+        //{
+        //    string query = $"DELETE FROM ProductTypes WHERE ProductType = '{productType}'";
+        //    await ExecuteNonQuery(query);
+        //}
     }
 }

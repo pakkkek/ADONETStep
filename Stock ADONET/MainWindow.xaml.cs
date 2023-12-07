@@ -62,19 +62,37 @@ namespace Stock_ADONET
             List<Suppliers> suppliers = new List<Suppliers>();
             string query = "SELECT * FROM Suppliers";
 
-            using (SqlCommand sqlCommand = new SqlCommand(query, databaseManager.sqlConnection))
-            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+            try
             {
-                while (await sqlDataReader.ReadAsync())
+                if (databaseManager.sqlConnection.State == ConnectionState.Closed)
                 {
-                    suppliers.Add(new Suppliers(
-                        (int)sqlDataReader[0],
-                        sqlDataReader[1].ToString(),
-                        sqlDataReader[2].ToString()));
+                    await databaseManager.OpenConnection();
+                }
+
+                using (SqlCommand sqlCommand = new SqlCommand(query, databaseManager.sqlConnection))
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                {
+                    while (await sqlDataReader.ReadAsync())
+                    {
+                        suppliers.Add(new Suppliers(
+                            (int)sqlDataReader[0],
+                            sqlDataReader[1].ToString(),
+                            sqlDataReader[2].ToString()));
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading suppliers: {ex.Message}", "System Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                await databaseManager.CloseConnection();
+            }
+
             return suppliers;
         }
+
 
         private async Task<List<Products>> LoadProducts()
         {
@@ -117,54 +135,6 @@ namespace Stock_ADONET
             }
 
             return list;
-        }
-
-        private async void ShowAllInfoButton_Click(object sender, RoutedEventArgs e)
-        {
-            string query = "SELECT * FROM Products P INNER JOIN StockMovements SM ON P.ProductId = SM.ProductId";
-            DataTable dataTable = await databaseManager.ExecuteQueryAsync(query);
-            Products.ItemsSource = ConvertDataTableToProductsList(dataTable);
-        }
-
-        private async void ShowAllTypesButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> types = await databaseManager.GetAllTypesAsync();
-            ShowResultInMessageBox("All Types", types);
-        }
-
-        private async void ShowAllSuppliersButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> suppliers = await databaseManager.GetAllSuppliersAsync();
-            ShowResultInMessageBox("All Suppliers", suppliers);
-        }
-
-        private async void ShowMaxQuantityButton_Click(object sender, RoutedEventArgs e)
-        {
-            Products product = await databaseManager.GetProductWithMaxQuantityAsync();
-            ShowResultInMessageBox("Product with Max Quantity", product);
-        }
-
-        private async void ShowMinQuantityButton_Click(object sender, RoutedEventArgs e)
-        {
-            Products product = await databaseManager.GetProductWithMinQuantityAsync();
-            ShowResultInMessageBox("Product with Min Quantity", product);
-        }
-
-        private async void ShowMinCostButton_Click(object sender, RoutedEventArgs e)
-        {
-            Products product = await databaseManager.GetProductWithMinCostAsync();
-            ShowResultInMessageBox("Product with Min Cost", product);
-        }
-
-        private async void ShowMaxCostButton_Click(object sender, RoutedEventArgs e)
-        {
-            Products product = await databaseManager.GetProductWithMaxCostAsync();
-            ShowResultInMessageBox("Product with Max Cost", product);
-        }
-
-        private void ShowResultInMessageBox(string title, object result)
-        {
-            MessageBox.Show($"{title}: {result}", "System Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async void InsertProductButton_Click(object sender, RoutedEventArgs e)
