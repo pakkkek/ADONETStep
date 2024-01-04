@@ -5,6 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stock_ADONET"
         mc:Ignorable="d"
-        Title="Stock" Height="450" Width="800" Loaded="Window_Loaded">
-    <DataGrid x:Name="StockUsers"/>
+        Title="StationeryCompany" Height="450" Width="800">
+    <Grid>
+        <!--Users-->
+        <Border Height="170" Width="550" Margin="0 0 200 100 ">
+            <DataGrid x:Name="DG_Users"  AutoGenerateColumns="True" ItemsSource="{Binding}">
+            </DataGrid>
+        </Border>
+
+        <!--Connection-->
+        <Border Height="50" Width="100" Background="#212121" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50 0 0 50" MouseDown="DisconnectButton_Click" >
+            <TextBlock Text="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="10"/>
+        </Border>
+        <Border Height="50" Width="100" Background="#212121" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50 0 0 110" MouseDown="ConnectButton_Click">
+            <TextBlock Text="Connect" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="10"/>
+        </Border>
+
+        <!--Tasks-->
+        <Border Height="50" Width="150" Background="#212121" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="180 0 0 50" MouseDown="LoadDataButton_Click">
+            <TextBlock Text="Task 3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="10"/>
+        </Border>
+        <Border Height="50" Width="150" Background="#212121" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="180 0 0 110" MouseDown="LoadDataButton_Click">
+            <TextBlock Text="Task 4" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="10"/>
+        </Border>
+
+        <!--Buttons-->
+        <Grid Height="200" Width="200" Margin="570 0 0 100">
+            <Button Name="LoadAllProductsButton" Height="20" Margin="0 0 0 130" Content="Load All Products" Click="LoadDataButton_Click"/>
+            <Button Name="LoadProductTypesButton" Height="20" Margin="0 0 0 80" Content="Load Product Types" Click="LoadDataButton_Click"/>
+            <Button Name="LoadSalesManagersButton" Height="20" Margin="0 0 0 30" Content="Load Sales Managers" Click="LoadDataButton_Click"/>
+            <Button Name="LoadMaxQuantityProductsButton" Height="20" Margin="0 20 0 0" Content="Load Max Quantity Products" Click="LoadDataButton_Click"/>
+            <Button Name="LoadMinQuantityProductsButton" Height="20" Margin="0 70 0 0" Content="Load Min Quantity Products" Click="LoadDataButton_Click"/>
+            <Button Name="LoadMinCostProductsButton" Height="20" Margin="0 120 0 0" Content="Load Min Cost Products" Click="LoadDataButton_Click"/>
+            <Button Name="LoadMaxCostProductsButton" Height="20" Margin="0 170 0 0" Content="Load Max Cost Products" Click="LoadDataButton_Click"/>
+        </Grid>
+    </Grid>
 </Window>

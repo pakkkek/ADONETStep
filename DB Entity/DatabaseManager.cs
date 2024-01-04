@@ -3,23 +3,55 @@ using System.Data.SqlClient;
 
 namespace DB_Entity
 {
-    public class Student
+    public class Manager
     {
-        public int StudentID { get; set; }
-        public string Fullname { get; set; }
-        public string GroupName { get; set; }
-        public decimal AverageGrade { get; set; }
-        public string MinSubject { get; set; }
-        public string MaxSubject { get; set; }
+        public int ManagerID { get; set; }
+        public string ManagerName { get; set; }
 
-        public Student(int studentID, string fullname, string groupname, decimal averageGrade, string minSubject, string maxSubject)
+        public Manager(int managerID, string managerName)
         {
-            StudentID = studentID;
-            Fullname = fullname;
-            GroupName = groupname;
-            AverageGrade = averageGrade;
-            MinSubject = minSubject;
-            MaxSubject = maxSubject;
+            ManagerID = managerID;
+            ManagerName = managerName;
+        }
+    }
+
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public string ProductType { get; set; }
+        public int Quantity { get; set; }
+        public decimal CostPrice { get; set; }
+
+        public Product(int productID, string productName, string productType, int quantity, decimal costPrice)
+        {
+            ProductID = productID;
+            ProductName = productName;
+            ProductType = productType;
+            Quantity = quantity;
+            CostPrice = costPrice;
+        }
+    }
+
+    public class Sale
+    {
+        public int SaleID { get; set; }
+        public int ProductID { get; set; }
+        public int ManagerID { get; set; }
+        public string CustomerCompany { get; set; }
+        public int QuantitySold { get; set; }
+        public decimal UnitPrice { get; set; }
+        public DateTime SaleDate { get; set; }
+
+        public Sale (int saleID, int productID, int managerID, string customerCompany, int quantitySold, decimal unitPrice, DateTime saleDate)
+        {
+            SaleID = saleID;
+            ProductID = productID;
+            ManagerID = managerID;
+            CustomerCompany = customerCompany;
+            QuantitySold = quantitySold;
+            UnitPrice = unitPrice;
+            SaleDate = saleDate;
         }
     }
 
